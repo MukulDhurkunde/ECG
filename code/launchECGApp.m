@@ -1,7 +1,5 @@
 function varargout = launchECGApp(f)
-%LAUNCHMVCAPP Launch the small MVC application.
-%
-% Copyright 2021-2022 The MathWorks, Inc.
+%LAUNCHECGAPP Launch the ECG application.
 
 arguments
     f(1, 1) matlab.ui.Figure = uifigure()
@@ -13,17 +11,26 @@ f.Name = "ECG Simulator";
 % Create the layout.
 g = uigridlayout( ...
     "Parent", f, ...
-    "RowHeight", {"1x", 40}, ...
-    "ColumnWidth", "1x" );
+    "RowHeight", {"1x", "fit"}, ...
+    "ColumnWidth", {"1x", "fit"}, ...
+    "Padding", 0 );
 
 % Create the model.
-m = Model;
+m = Model();
 
 % Create the view.
 View( m, "Parent", g );
 
-% Create the controller.
-Controller( m, "Parent", g );
+cg = uigridlayout( ...
+     'Parent', g, ...
+     'RowHeight', "1x", ...
+     'ColumnWidth', "1x", ...
+     'Padding', 0);
+
+% Create the controllers.
+PropertyController(m, "Parent", cg);
+ArrhythmiaController(m, "Parent", cg);
+NoiseController(m, "Parent", cg);
 
 % Create toolbar to reset the model.
 icon = fullfile( matlabroot, ...
@@ -49,4 +56,4 @@ if nargout > 0
     varargout{1} = f;
 end % if
 
-end % launchMVCApp
+end

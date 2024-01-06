@@ -3,9 +3,9 @@ classdef ( Abstract ) Component < matlab.ui.componentcontainer.ComponentContaine
     %
     % Copyright 2021-2022 The MathWorks, Inc.
 
-    properties ( SetAccess = immutable, GetAccess = protected )
+    properties ( SetAccess = immutable, GetAccess = public )
         % Application data model.
-        Model(1, 1) Model
+        Model Model
     end % properties ( SetAccess = immutable, GetAccess = protected )
 
     methods
@@ -14,7 +14,7 @@ classdef ( Abstract ) Component < matlab.ui.componentcontainer.ComponentContaine
             %COMPONENT Component constructor.
 
             arguments
-                model(1, 1) Model
+                model Model
             end % arguments
 
             % Do not create a default figure parent for the component, and
@@ -27,7 +27,7 @@ classdef ( Abstract ) Component < matlab.ui.componentcontainer.ComponentContaine
                 "Units", "normalized", ...
                 "Position", [0, 0, 1, 1] )
 
-            % Store the model.
+            % Store the model
             obj.Model = model;
 
         end % constructor

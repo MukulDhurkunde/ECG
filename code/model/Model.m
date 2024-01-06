@@ -1,11 +1,9 @@
 classdef Model < handle
     %MODEL Application data model.
-    %
-    % Copyright 2021-2022 The MathWorks, Inc.
     
     properties ( SetAccess = private )
         % Application data.
-        Data(:, 1) double = double.empty( 0, 1 )
+        Data(:, 1) double = double.empty(0, 1)
     end % properties ( SetAccess = private )
     
     events ( NotifyAccess = private )
@@ -14,7 +12,7 @@ classdef Model < handle
     end % events ( NotifyAccess = private )
     
     methods
-        
+
         function random( obj )
             %RANDOM Generate new application data.
             

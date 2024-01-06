@@ -1,7 +1,5 @@
 classdef View < Component
     %VIEW Visualizes the data, responding to any relevant model events.
-    %
-    % Copyright 2021-2022 The MathWorks, Inc.
 
     properties ( Access = private )
         % Line object used to visualize the model data.
