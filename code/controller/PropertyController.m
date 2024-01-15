@@ -3,10 +3,18 @@ classdef PropertyController < Component
     properties (Access = private)
         % Define input fields as properties for easy access.
         HeartRateField matlab.ui.control.NumericEditField
-        PulseRateField matlab.ui.control.NumericEditField
         PWaveField matlab.ui.control.NumericEditField
+        QWaveField matlab.ui.control.NumericEditField
         QRSField matlab.ui.control.NumericEditField
+        SWaveField matlab.ui.control.NumericEditField
         TWaveField matlab.ui.control.NumericEditField
+        UWaveField matlab.ui.control.NumericEditField
+        DPWaveField matlab.ui.control.NumericEditField
+        DQWaveField matlab.ui.control.NumericEditField
+        DQRSField matlab.ui.control.NumericEditField
+        DSWaveField matlab.ui.control.NumericEditField
+        DTWaveField matlab.ui.control.NumericEditField
+        DUWaveField matlab.ui.control.NumericEditField
     end
 
     methods
@@ -41,12 +49,20 @@ classdef PropertyController < Component
                 'Padding', 0);
 
             % Create and configure labels and input fields.
-            obj.addLabeledNumericField(g, 'Heart Rate:', 70, 'HeartRateField');
-            obj.addLabeledNumericField(g, 'Pulse Rate:', 80, 'PulseRateField');
-            obj.addLabeledNumericField(g, 'P Wave:', 0.1, 'PWaveField');
-            obj.addLabeledNumericField(g, 'QRS:', 0.08, 'QRSField');
-            obj.addLabeledNumericField(g, 'T Wave:', 0.2, 'TWaveField');
-
+            obj.addLabeledNumericField(g, 'Heart Rate:', 72, 'HeartRateField');
+            obj.addLabeledNumericField(g, 'P Wave:', 0.25, 'PWaveField');
+            obj.addLabeledNumericField(g, 'Q Wave:', 0.025, 'QWaveField');
+            obj.addLabeledNumericField(g, 'QRS Wave:', 1.4, 'QRSField');
+            obj.addLabeledNumericField(g, 'S Wave:', 0.25, 'SWaveField');
+            obj.addLabeledNumericField(g, 'T Wave:', 0.35, 'TWaveField');
+            obj.addLabeledNumericField(g, 'U Wave:', 0.035, 'UWaveField');
+            obj.addLabeledNumericField(g, 'P Wave:', 0.09, 'DPWaveField');
+            obj.addLabeledNumericField(g, 'Q Wave:', 0.066, 'DQWaveField');
+            obj.addLabeledNumericField(g, 'QRS Wave:', 0.11, 'DQRSField');
+            obj.addLabeledNumericField(g, 'S Wave:', 0.066, 'DSWaveField');
+            obj.addLabeledNumericField(g, 'T Wave:', 0.142, 'DTWaveField');
+            obj.addLabeledNumericField(g, 'U Wave:', 0.0476, 'DUWaveField');
+            
             % Create button.
             uibutton( ...
                 'Parent', g, ...
@@ -67,8 +83,22 @@ classdef PropertyController < Component
 
         function onButtonPushed(obj, ~, ~)
 
+            values.heartRate = obj.HeartRateField.Value;
+            values.aPwave = obj.PWaveField.Value;
+            values.aQwave = obj.QWaveField.Value;
+            values.aQRS = obj.QRSField.Value;
+            values.aSwave = obj.SWaveField.Value;
+            values.aTwave = obj.TWaveField.Value;
+            values.aUwave = obj.UWaveField.Value;
+            values.dPwave = obj.DPWaveField.Value;
+            values.dQwave = obj.DQWaveField.Value;
+            values.dQRS = obj.DQRSField.Value;
+            values.dSwave = obj.DSWaveField.Value;
+            values.dTwave = obj.DTWaveField.Value;
+            values.dUwave = obj.DUWaveField.Value;
+
             % Invoke the random() method of the model.
-            generateCustomECG(obj.Model)
+            generateCustomECG(obj.Model, values)
 
         end % onButtonPushed
 

@@ -1,31 +1,13 @@
-function ecgData = generateECG()
-    arguments
-    end
+function ecgData = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ...
+    aQrswav, dQrswav, aSwav, dSwav, aTwav, dTwav, aUwav, dUwav)
 
     x = 0.01:0.01:100;
-    li = 30/72;  
+    li = 30/heartRate;  
     
-    aPwav = 0.25;
-    dPwav = 0.09;
     tPwav = 0.16;  
-    
-    aQwav = 0.025;
-    dQwav = 0.066;
     tQwav = 0.166;
-    
-    aQrswav = 1.6;
-    dQrswav = 0.11;
-    
-    aSwav = 0.25;
-    dSwav = 0.066;
     tSwav = 0.09;
-    
-    aTwav = 0.35;
-    dTwav = 0.142;
     tTwav = 0.2;
-    
-    aUwav = 0.035;
-    dUwav = 0.0476;
     tUwav = 0.433;
 
     % Calculate individual waves
