@@ -68,7 +68,7 @@ classdef PropertyController < Component
         function onButtonPushed(obj, ~, ~)
 
             % Invoke the random() method of the model.
-            random(obj.Model)
+            generateCustomECG(obj.Model)
 
         end % onButtonPushed
 

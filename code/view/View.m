@@ -1,76 +1,56 @@
 classdef View < Component
-    %VIEW Visualizes the data, responding to any relevant model events.
-
-    properties ( Access = private )
-        % Line object used to visualize the model data.
+    properties (Access = private)
         Line(1, 1) matlab.graphics.primitive.Line
-        % Listener object used to respond dynamically to model events.
         Listener(:, 1) event.listener {mustBeScalarOrEmpty}
-    end % properties ( Access = private )
+    end
 
     methods
-
-        function obj = View( model, namedArgs )
-            %VIEW View constructor.
-
+        function obj = View(model, namedArgs)
             arguments
                 model(1, 1) Model
                 namedArgs.?View
-            end % arguments
+            end
 
-            % Call the superclass constructor.
-            obj@Component( model )
+            obj@Component(model)
+            obj.Listener = listener(obj.Model, 'DataChanged', @obj.onDataChanged);
+            set(obj, namedArgs);
+            onDataChanged(obj);
+        end
+    end
 
-            % Listen for changes to the data.
-            obj.Listener = listener( obj.Model, ...
-                "DataChanged", @obj.onDataChanged );
+    methods (Access = protected)
+        function setup(obj)
+            ax = axes('Parent', obj);
+            obj.Line = line(ax, 'XData', [], 'YData', [], ...
+                'Color', ax.ColorOrder(1, :), 'LineWidth', 1.5);
+        end
 
-            % Set any user-specified properties.
-            set( obj, namedArgs )
+        function update(~)
+        end
+    end
 
-            % Refresh the view.
-            onDataChanged( obj )
-
-        end % constructor
-
-    end % methods
-
-    methods ( Access = protected )
-
-        function setup( obj )
-            %SETUP Initialize the view.
-
-            % Create the view graphics.
-            ax = axes( "Parent", obj );
-            obj.Line = line( ...
-                "Parent", ax, ...
-                "XData", NaN, ...
-                "YData", NaN, ...
-                "Color", ax.ColorOrder(1, :), ...
-                "LineWidth", 1.5 );
-
-        end % setup
-
-        function update( ~ )
-            %UPDATE Update the view. This method is empty because there are
-            %no public properties of the view.
-
-        end % update
-
-    end % methods ( Access = protected )
-
-    methods ( Access = private )
-
-        function onDataChanged( obj, ~, ~ )
-            %ONDATACHANGED Listener callback, responding to the model event
-            %"DataChanged".
-
-            % Retrieve the most recent data and update the line.
+    methods (Access = private)
+        function onDataChanged(obj, ~, ~)
             data = obj.Model.Data;
-            set( obj.Line, "XData", 1:numel( data ), "YData", data )
+            updateGraph(obj, data);
+        end
 
-        end % onDataChanged
+        function updateGraph(obj, data)
+            ax = obj.Line.Parent;
+            visibleIntervals = 300;  % Adjust this as needed
 
-    end % methods ( Access = private )
+            % Calculate the start indices based on the current x-axis limits
+            currentIndex = round(ax.XLim(1));
 
-end % classdef
+            % Update the x and y data
+            set(obj.Line, 'XData', 1:numel(data), 'YData', data);
+
+            % Set the Y-axis limits to the range of data
+            set(ax, 'YLimMode', 'auto');
+
+            % Adjust the x-axis limits for scrolling effect
+            newLimits = [currentIndex, currentIndex + visibleIntervals - 1];
+            set(ax, 'XLim', newLimits);
+        end
+    end
+end
