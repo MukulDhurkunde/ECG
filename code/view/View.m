@@ -22,6 +22,11 @@ classdef View < Component
         function setup(obj)
             ax = axes('Parent', obj);
             grid(ax, 'on');
+
+            % Label the axes
+            xlabel(ax, 'Time (seconds)');
+            ylabel(ax, 'Voltage (millivolts)');
+
             obj.Line = line(ax, 'XData', [], 'YData', [], ...
                 'Color', ax.ColorOrder(1, :), 'LineWidth', 1.5);
         end

@@ -62,7 +62,7 @@ classdef PropertyController < Component
             uilabel(g, 'Text', '');
 
              % Labels for the headers.
-            headerLabels = {'', 'Amplitude', 'Duration'};
+            headerLabels = {'', 'Amplitude (mV)', 'Duration (s)'};
             for i = 1:numel(headerLabels)
                 uilabel(g, 'Text', headerLabels{i}, 'FontSize', 14);
             end
