@@ -5,6 +5,10 @@ classdef Model < handle
         % Application data.
         Data(:, 1) double = double.empty(0, 1)
     end % properties ( SetAccess = private )
+
+    properties ( SetAccess = public )
+        Values = struct()
+    end
     
     events ( NotifyAccess = private )
         % Event broadcast when the data is changed.
@@ -22,12 +26,12 @@ classdef Model < handle
             
         end % random
 
-        function generateCustomECG(obj, values)
+        function generateCustomECG(obj)
 
-            ecgData = generateECG(values.heartRate, values.aPwave, ...
-                values.dPwave, values.aQwave, values.dQwave, ...
-                values.aQRS, values.dQRS, values.aSwave, values.dSwave, ...
-                values.aTwave, values.dTwave, values.aUwave, values.dUwave);
+            ecgData = generateECG(obj.Values.heartRate, obj.Values.aPwave, ...
+                obj.Values.dPwave, obj.Values.aQwave, obj.Values.dQwave, ...
+                obj.Values.aQRS, obj.Values.dQRS, obj.Values.aSwave, obj.Values.dSwave, ...
+                obj.Values.aTwave, obj.Values.dTwave, obj.Values.aUwave, obj.Values.dUwave);
             obj.Data = ecgData;
             notify( obj, "DataChanged" )
         end

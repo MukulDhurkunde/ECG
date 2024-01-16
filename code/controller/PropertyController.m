@@ -101,9 +101,20 @@ classdef PropertyController < Component
 
         end % setup
 
-        function update(~)
-            % UPDATE Update the controller. This method is empty because
-            % there are no public properties of the controller.
+        function update(obj)
+            obj.Model.Values.("heartRate") = obj.HeartRateField.Value;
+            obj.Model.Values.aPwave = obj.PWaveField.Value;
+            obj.Model.Values.aQwave = obj.QWaveField.Value;
+            obj.Model.Values.aQRS = obj.QRSField.Value;
+            obj.Model.Values.aSwave = obj.SWaveField.Value;
+            obj.Model.Values.aTwave = obj.TWaveField.Value;
+            obj.Model.Values.aUwave = obj.UWaveField.Value;
+            obj.Model.Values.dPwave = obj.DPWaveField.Value;
+            obj.Model.Values.dQwave = obj.DQWaveField.Value;
+            obj.Model.Values.dQRS = obj.DQRSField.Value;
+            obj.Model.Values.dSwave = obj.DSWaveField.Value;
+            obj.Model.Values.dTwave = obj.DTWaveField.Value;
+            obj.Model.Values.dUwave = obj.DUWaveField.Value;
 
         end % update
 
@@ -113,22 +124,8 @@ classdef PropertyController < Component
 
         function onButtonPushed(obj, ~, ~)
 
-            values.heartRate = obj.HeartRateField.Value;
-            values.aPwave = obj.PWaveField.Value;
-            values.aQwave = obj.QWaveField.Value;
-            values.aQRS = obj.QRSField.Value;
-            values.aSwave = obj.SWaveField.Value;
-            values.aTwave = obj.TWaveField.Value;
-            values.aUwave = obj.UWaveField.Value;
-            values.dPwave = obj.DPWaveField.Value;
-            values.dQwave = obj.DQWaveField.Value;
-            values.dQRS = obj.DQRSField.Value;
-            values.dSwave = obj.DSWaveField.Value;
-            values.dTwave = obj.DTWaveField.Value;
-            values.dUwave = obj.DUWaveField.Value;
-
             % Invoke the random() method of the model.
-            generateCustomECG(obj.Model, values)
+            generateCustomECG(obj.Model)
 
         end % onButtonPushed
 
@@ -136,21 +133,50 @@ classdef PropertyController < Component
             % Helper function to add a labeled numeric field.
 
             container = uigridlayout(parent, 'RowHeight', "1x", 'ColumnWidth', {"fit"}, 'Padding', 0, 'BackgroundColor', [0.8, 0.8, 0.8]);
-            obj.(fieldName) = uieditfield(container, 'numeric', 'Value', defaultValue, 'Limits', [0, Inf], 'ValueChangedFcn', @(src, event) obj.validateInput(src, labelText));
+            obj.(fieldName) = uieditfield(container, 'numeric', 'Value', defaultValue, 'Limits', [0, Inf], 'ValueChangedFcn', @(src, event) obj.validateInput(src, labelText, fieldName));
         end
 
-        function validateInput(~, src, fieldName)
+        function validateInput(obj, src, labelText, fieldName)
             % Validate the input to ensure it is numeric.
 
             input = src.Value;
 
             if ~isnumeric(input) || ~isscalar(input)
                 % Display an error message for invalid input.
-                msg = sprintf('Invalid input value for %s. Please enter a numeric value.', fieldName);
+                msg = sprintf('Invalid input value for %s. Please enter a numeric value.', labelText);
                 errordlg(msg, 'Invalid Input', 'modal');
 
                 % Reset the input field to its previous value.
                 src.Value = src.Value;
+            end
+
+            if (strcmpi(fieldName, 'PWaveField'))
+                obj.Model.Values.aPwave = input;
+            elseif (strcmpi(fieldName, 'DPWaveField'))
+                obj.Model.Values.dPwave = input;
+            elseif (strcmpi(fieldName, 'QWaveField'))
+                obj.Model.Values.aQwave = input;
+            elseif (strcmpi(fieldName, 'DQWaveField'))
+                obj.Model.Values.dQwave = input;
+            elseif (strcmpi(fieldName, 'QRSField'))
+                obj.Model.Values.aQRS = input;
+            elseif (strcmpi(fieldName, 'DQRSField'))
+                obj.Model.Values.dQRS = input;
+            elseif (strcmpi(fieldName, 'SWaveField'))
+                obj.Model.Values.aSwave = input;
+            elseif (strcmpi(fieldName, 'DSWaveField'))
+                obj.Model.Values.dSwave = input;
+            elseif (strcmpi(fieldName, 'TWaveField'))
+                obj.Model.Values.aTwave = input;
+            elseif (strcmpi(fieldName, 'DTWaveField'))
+                obj.Model.Values.dTwave = input;
+            elseif (strcmpi(fieldName, 'UWaveField'))
+                obj.Model.Values.aUwave = input;
+            elseif (strcmpi(fieldName, 'DUWaveField'))
+                obj.Model.Values.dUwave = input;
+            elseif (strcmpi(fieldName, 'HeartRateField'))
+                obj.Model.Values.heartRate = input;
+            else
             end
 
         end % validateInput
