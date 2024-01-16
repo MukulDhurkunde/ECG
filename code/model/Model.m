@@ -13,6 +13,7 @@ classdef Model < handle
     events ( NotifyAccess = private )
         % Event broadcast when the data is changed.
         DataChanged
+        Reset
     end % events ( NotifyAccess = private )
     
     methods
@@ -41,7 +42,7 @@ classdef Model < handle
             
             % Reset the data to an empty column vector.
             obj.Data = double.empty( 0, 1 );
-            notify( obj, "DataChanged" )
+            notify( obj, "Reset" )
             
         end % reset
         

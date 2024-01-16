@@ -1,7 +1,7 @@
 function ecgData = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ...
     aQrswav, dQrswav, aSwav, dSwav, aTwav, dTwav, aUwav, dUwav)
 
-    x = 0.01:0.01:100;
+    x = 0.01:0.01:600;
     li = 30/heartRate;  
     
     tPwav = 0.16;  
