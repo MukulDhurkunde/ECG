@@ -21,6 +21,7 @@ classdef View < Component
     methods (Access = protected)
         function setup(obj)
             ax = axes('Parent', obj);
+            grid(ax, 'on');
             obj.Line = line(ax, 'XData', [], 'YData', [], ...
                 'Color', ax.ColorOrder(1, :), 'LineWidth', 1.5);
         end

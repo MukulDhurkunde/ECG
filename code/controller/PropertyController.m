@@ -41,31 +41,57 @@ classdef PropertyController < Component
         function setup(obj)
             % SETUP Initialize the controller.
 
+            columnLayout = uigridlayout('Parent', obj, ...
+                'RowHeight', {"fit", "fit"}, ...
+                'ColumnWidth', "1x", ...
+                'Padding', 16, ...
+                'BackgroundColor', [0.8, 0.8, 0.8]);
+
             % Create grid layout.
             g = uigridlayout( ...
-                'Parent', obj, ...
+                'Parent', columnLayout, ...
                 'RowHeight', "1x", ...
-                'ColumnWidth', "1x", ...
-                'Padding', 0);
+                'ColumnWidth', {"fit", "1x", "1x"}, ...
+                'Padding', 0, ...
+                'BackgroundColor', [0.8, 0.8, 0.8]);
+
+             % Labels for the headers.
+            headerLabels = {'Type', 'Amplitude', 'Duration'};
+            for i = 1:numel(headerLabels)
+                uilabel(g, 'Text', headerLabels{i});
+            end
 
             % Create and configure labels and input fields.
-            obj.addLabeledNumericField(g, 'Heart Rate:', 72, 'HeartRateField');
+            uilabel(g, 'Text', 'P Wave :');
             obj.addLabeledNumericField(g, 'P Wave:', 0.25, 'PWaveField');
-            obj.addLabeledNumericField(g, 'Q Wave:', 0.025, 'QWaveField');
-            obj.addLabeledNumericField(g, 'QRS Wave:', 1.4, 'QRSField');
-            obj.addLabeledNumericField(g, 'S Wave:', 0.25, 'SWaveField');
-            obj.addLabeledNumericField(g, 'T Wave:', 0.35, 'TWaveField');
-            obj.addLabeledNumericField(g, 'U Wave:', 0.035, 'UWaveField');
             obj.addLabeledNumericField(g, 'P Wave:', 0.09, 'DPWaveField');
+
+            uilabel(g, 'Text', 'Q Wave :');
+            obj.addLabeledNumericField(g, 'Q Wave:', 0.025, 'QWaveField');
             obj.addLabeledNumericField(g, 'Q Wave:', 0.066, 'DQWaveField');
-            obj.addLabeledNumericField(g, 'QRS Wave:', 0.11, 'DQRSField');
+
+            uilabel(g, 'Text', 'QRS :');
+            obj.addLabeledNumericField(g, 'QRS:', 1.4, 'QRSField');
+            obj.addLabeledNumericField(g, 'QRS:', 0.11, 'DQRSField');
+
+            uilabel(g, 'Text', 'S Wave :');
+            obj.addLabeledNumericField(g, 'S Wave:', 0.25, 'SWaveField');
             obj.addLabeledNumericField(g, 'S Wave:', 0.066, 'DSWaveField');
+
+            uilabel(g, 'Text', 'T Wave :');
+            obj.addLabeledNumericField(g, 'T Wave:', 0.35, 'TWaveField');
             obj.addLabeledNumericField(g, 'T Wave:', 0.142, 'DTWaveField');
+
+            uilabel(g, 'Text', 'U Wave :');
+            obj.addLabeledNumericField(g, 'U Wave:', 0.035, 'UWaveField');
             obj.addLabeledNumericField(g, 'U Wave:', 0.0476, 'DUWaveField');
+            
+            uilabel(g, 'Text', 'Heart Rate :');
+            obj.addLabeledNumericField(g, 'Heart Rate:', 72, 'HeartRateField');
             
             % Create button.
             uibutton( ...
-                'Parent', g, ...
+                'Parent', columnLayout, ...
                 'Text', 'Generate ECG', ...
                 'ButtonPushedFcn', @obj.onButtonPushed);
 
@@ -105,9 +131,7 @@ classdef PropertyController < Component
         function addLabeledNumericField(obj, parent, labelText, defaultValue, fieldName)
             % Helper function to add a labeled numeric field.
 
-            container = uigridlayout(parent, 'RowHeight', "1x", 'ColumnWidth', {"1x", "3x"}, 'Padding', 5);
-
-            uilabel(container, 'Text', labelText, 'HorizontalAlignment', 'Right');
+            container = uigridlayout(parent, 'RowHeight', "1x", 'ColumnWidth', {"fit"}, 'Padding', 0, 'BackgroundColor', [0.8, 0.8, 0.8]);
             obj.(fieldName) = uieditfield(container, 'numeric', 'Value', defaultValue, 'Limits', [0, Inf], 'ValueChangedFcn', @(src, event) obj.validateInput(src, labelText));
         end
 

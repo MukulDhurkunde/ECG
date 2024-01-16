@@ -3,10 +3,6 @@ classdef NoiseController < Component
     properties (Access = private)
         % Define input fields as properties for easy access.
         HeartRateField matlab.ui.control.NumericEditField
-        PulseRateField matlab.ui.control.NumericEditField
-        PWaveField matlab.ui.control.NumericEditField
-        QRSField matlab.ui.control.NumericEditField
-        TWaveField matlab.ui.control.NumericEditField
     end
 
     methods
@@ -42,10 +38,6 @@ classdef NoiseController < Component
 
             % Create and configure labels and input fields.
             obj.addLabeledNumericField(g, 'Heart Rate:', 70, 'HeartRateField');
-            obj.addLabeledNumericField(g, 'Pulse Rate:', 80, 'PulseRateField');
-            obj.addLabeledNumericField(g, 'P Wave:', 0.1, 'PWaveField');
-            obj.addLabeledNumericField(g, 'QRS:', 0.08, 'QRSField');
-            obj.addLabeledNumericField(g, 'T Wave:', 0.2, 'TWaveField');
 
             % Create button.
             uibutton( ...
