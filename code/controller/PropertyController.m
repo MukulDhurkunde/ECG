@@ -44,8 +44,10 @@ classdef PropertyController < Component
             columnLayout = uigridlayout('Parent', obj, ...
                 'RowHeight', {"fit", "fit"}, ...
                 'ColumnWidth', "1x", ...
-                'Padding', 16, ...
+                'Padding', [20, 4, 16, 16], ...
                 'BackgroundColor', [0.8, 0.8, 0.8]);
+
+            uilabel(columnLayout, 'Text', 'Configure ECG Properties', 'FontSize', 14, 'FontWeight', 'Bold');
 
             % Create grid layout.
             g = uigridlayout( ...
@@ -55,10 +57,14 @@ classdef PropertyController < Component
                 'Padding', 0, ...
                 'BackgroundColor', [0.8, 0.8, 0.8]);
 
+            uilabel(g, 'Text', 'Heart Rate :');
+            obj.addLabeledNumericField(g, 'Heart Rate:', 72, 'HeartRateField');
+            uilabel(g, 'Text', '');
+
              % Labels for the headers.
-            headerLabels = {'Type', 'Amplitude', 'Duration'};
+            headerLabels = {'', 'Amplitude', 'Duration'};
             for i = 1:numel(headerLabels)
-                uilabel(g, 'Text', headerLabels{i});
+                uilabel(g, 'Text', headerLabels{i}, 'FontSize', 14);
             end
 
             % Create and configure labels and input fields.
@@ -86,13 +92,11 @@ classdef PropertyController < Component
             obj.addLabeledNumericField(g, 'U Wave:', 0.035, 'UWaveField');
             obj.addLabeledNumericField(g, 'U Wave:', 0.0476, 'DUWaveField');
             
-            uilabel(g, 'Text', 'Heart Rate :');
-            obj.addLabeledNumericField(g, 'Heart Rate:', 72, 'HeartRateField');
-            
             % Create button.
             uibutton( ...
                 'Parent', columnLayout, ...
-                'Text', 'Generate ECG', ...
+                'Text', 'Generate ECG', 'BackgroundColor', [0, 0, 0], ...
+                'FontColor', [1, 1, 1], 'FontSize', 14, 'FontWeight', 'Bold', ...
                 'ButtonPushedFcn', @obj.onButtonPushed);
 
         end % setup

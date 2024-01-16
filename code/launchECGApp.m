@@ -2,7 +2,7 @@ function varargout = launchECGApp(f)
 %LAUNCHECGAPP Launch the ECG application.
 
 arguments
-    f(1, 1) matlab.ui.Figure = uifigure()
+    f(1, 1) matlab.ui.Figure = uifigure('WindowState', 'maximized')
 end % arguments
 
 % Rename figure.
@@ -23,13 +23,16 @@ View( m, "Parent", g );
 
 cg = uigridlayout( ...
      'Parent', g, ...
-     'RowHeight', {"fit", "fit", "fit"}, ...
+     'RowHeight', {"fit", 2, "fit", 2, "fit"}, ...
      'ColumnWidth', "1x", ...
-     'Padding', 0);
+     'Padding', 0, ...
+     'BackgroundColor', [0.8, 0.8, 0.8]);
 
 % Create the controllers.
 PropertyController(m, "Parent", cg);
+uilabel(cg, 'Text', '', 'BackgroundColor', 'white');
 ArrhythmiaController(m, "Parent", cg);
+uilabel(cg, 'Text', '', 'BackgroundColor', 'white');
 NoiseController(m, "Parent", cg);
 
 % Create toolbar to reset the model.
