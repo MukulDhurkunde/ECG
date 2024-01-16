@@ -1,5 +1,3 @@
-
-
 classdef ArrhythmiaController < Component
 
     properties (Access = private)
