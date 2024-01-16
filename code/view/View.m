@@ -48,8 +48,6 @@ classdef View < Component
 
     methods (Access = private)
         function onDataChanged(obj, ~, ~)
-            data = obj.Model.Data;
-            updateGraph(obj, data);
             onResetData(obj);
 
             % Set up new timer for scrolling
@@ -81,7 +79,7 @@ classdef View < Component
             currentIndex = round(ax.XLim(1));
 
             % Update the x and y data
-            set(obj.Line, 'XData', 1:numel(data), 'YData', data);
+            set(obj.Line, 'XData', 400:numel(data) + 399, 'YData', data);
 
             % Set the Y-axis limits to the range of data
             set(ax, 'YLimMode', 'auto');
