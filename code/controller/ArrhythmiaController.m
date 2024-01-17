@@ -1,4 +1,4 @@
-classdef NoiseController < Component
+classdef ArrhythmiaController < Component
 
     properties (Access = private)
         RadioBtn1(1, 1) matlab.ui.control.RadioButton
@@ -8,11 +8,11 @@ classdef NoiseController < Component
 
     methods
 
-        function obj = NoiseController(model, namedArgs)
+        function obj = ArrhythmiaController(model, namedArgs)
 
             arguments
                 model Model
-                namedArgs.?NoiseController
+                namedArgs.?ArrhythmiaController
             end
 
             obj@Component(model)
@@ -32,7 +32,7 @@ classdef NoiseController < Component
                 'Padding', [20, 4, 16, 8], ...
                 'BackgroundColor', [0.8, 0.8, 0.8]);
 
-            uilabel(g, 'Text', 'Noise', 'FontSize', 14, 'FontWeight', 'Bold');
+            uilabel(g, 'Text', 'Arrhythmia', 'FontSize', 14, 'FontWeight', 'Bold');
 
             radioLayout = uigridlayout( ...
                 'Parent', g, ...
@@ -62,12 +62,14 @@ classdef NoiseController < Component
         function onSelectionChanged(obj, ~, event)
             selectedButton = event.NewValue;
             if selectedButton == obj.RadioBtn1
-                obj.Model.Values.noise = false;
+                obj.Model.Values.arrhythmia = false;
             elseif selectedButton == obj.RadioBtn2
-                obj.Model.Values.noise = true;
+                obj.Model.Values.arrhythmia = true;
             end
         end
 
     end
 
 end
+
+
