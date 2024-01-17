@@ -20,8 +20,9 @@ classdef Model < handle
 
         function obj =  Model()
             obj@handle()
-            obj.Values.noise = true;
+            obj.Values.noise = false;
             obj.Values.detectPeak = false;
+            obj.Values.arrhythmia = false;
         end
 
         function generateCustomECG(obj)
