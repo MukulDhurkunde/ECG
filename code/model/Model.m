@@ -18,14 +18,11 @@ classdef Model < handle
     
     methods
 
-        function random( obj )
-            %RANDOM Generate new application data.
-            
-            % Generate column vector of random data.
-            obj.Data = randn( 20, 1 );
-            notify( obj, "DataChanged" )
-            
-        end % random
+        function obj =  Model()
+            obj@handle()
+            obj.Values.noise = true;
+            obj.Values.detectPeak = false;
+        end
 
         function generateCustomECG(obj)
 

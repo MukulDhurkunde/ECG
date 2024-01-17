@@ -47,7 +47,7 @@ classdef PropertyController < Component
                 'Padding', [20, 4, 16, 16], ...
                 'BackgroundColor', [0.8, 0.8, 0.8]);
 
-            uilabel(columnLayout, 'Text', 'Configure ECG Properties', 'FontSize', 14, 'FontWeight', 'Bold');
+            uilabel(columnLayout, 'Text', 'ECG Properties', 'FontSize', 14, 'FontWeight', 'Bold');
 
             % Create grid layout.
             g = uigridlayout( ...
@@ -64,7 +64,7 @@ classdef PropertyController < Component
              % Labels for the headers.
             headerLabels = {'', 'Amplitude (mV)', 'Duration (s)'};
             for i = 1:numel(headerLabels)
-                uilabel(g, 'Text', headerLabels{i}, 'FontSize', 14);
+                uilabel(g, 'Text', headerLabels{i}, 'FontSize', 12);
             end
 
             % Create and configure labels and input fields.
@@ -91,13 +91,6 @@ classdef PropertyController < Component
             uilabel(g, 'Text', 'U Wave :');
             obj.addLabeledNumericField(g, 'U Wave:', 0.035, 'UWaveField');
             obj.addLabeledNumericField(g, 'U Wave:', 0.0476, 'DUWaveField');
-            
-            % Create button.
-            uibutton( ...
-                'Parent', columnLayout, ...
-                'Text', 'Generate ECG', 'BackgroundColor', [0, 0, 0], ...
-                'FontColor', [1, 1, 1], 'FontSize', 14, 'FontWeight', 'Bold', ...
-                'ButtonPushedFcn', @obj.onButtonPushed);
 
         end % setup
 
@@ -121,13 +114,6 @@ classdef PropertyController < Component
     end % methods (Access = protected)
 
     methods (Access = private)
-
-        function onButtonPushed(obj, ~, ~)
-
-            % Invoke the random() method of the model.
-            generateCustomECG(obj.Model)
-
-        end % onButtonPushed
 
         function addLabeledNumericField(obj, parent, labelText, defaultValue, fieldName)
             % Helper function to add a labeled numeric field.

@@ -1,4 +1,4 @@
-classdef NoiseController < Component
+classdef PeakDetectionController < Component
 
     properties (Access = private)
         RadioBtn1(1, 1) matlab.ui.control.RadioButton
@@ -8,11 +8,11 @@ classdef NoiseController < Component
 
     methods
 
-        function obj = NoiseController(model, namedArgs)
+        function obj = PeakDetectionController(model, namedArgs)
 
             arguments
                 model Model
-                namedArgs.?NoiseController
+                namedArgs.?PeakDetectionController
             end
 
             obj@Component(model)
@@ -27,12 +27,12 @@ classdef NoiseController < Component
         function setup(obj)
             g = uigridlayout( ...
                 'Parent', obj, ...
-                'RowHeight', { "fit", "fit" }, ...
+                'RowHeight', { "fit", "fit", "fit" }, ...
                 'ColumnWidth', "1x", ...
                 'Padding', [20, 4, 16, 8], ...
                 'BackgroundColor', [0.8, 0.8, 0.8]);
 
-            uilabel(g, 'Text', 'Noise', 'FontSize', 14, 'FontWeight', 'Bold');
+            uilabel(g, 'Text', 'Peak Detection', 'FontSize', 14, 'FontWeight', 'Bold');
 
             radioLayout = uigridlayout( ...
                 'Parent', g, ...
@@ -46,9 +46,8 @@ classdef NoiseController < Component
                 "SelectionChangedFcn", @obj.onSelectionChanged, 'BackgroundColor', [1, 1, 1]);
 
             % Create radio buttons.
-            obj.RadioBtn1 = uiradiobutton(obj.RadioGroup, 'Text', 'Include', "Position",[10 100 100 22]);
-            obj.RadioBtn2 = uiradiobutton(obj.RadioGroup, 'Text', 'Exclude', "Position",[10 70 100 22]);
-
+            obj.RadioBtn1 = uiradiobutton(obj.RadioGroup, 'Text', 'Exclude', "Position",[10 100 100 22]);
+            obj.RadioBtn2 = uiradiobutton(obj.RadioGroup, 'Text', 'Include', "Position",[10 70 100 22]);
         end
 
         function update(~)
@@ -62,9 +61,9 @@ classdef NoiseController < Component
         function onSelectionChanged(obj, ~, event)
             selectedButton = event.NewValue;
             if selectedButton == obj.RadioBtn1
-                obj.Model.Values.noise = true;
+                obj.Model.Values.detectPeak = false;
             elseif selectedButton == obj.RadioBtn2
-                obj.Model.Values.noise = false;
+                obj.Model.Values.detectPeak = true;
             end
         end
 
