@@ -32,8 +32,8 @@ cg = uigridlayout( ...
 PropertyController(m, "Parent", cg);
 uilabel(cg, 'Text', '', 'BackgroundColor', 'white');
 NoiseController(m, "Parent", cg);
-uilabel(cg, 'Text', '', 'BackgroundColor', 'white');
-ArrhythmiaController(m, "Parent", cg);
+%uilabel(cg, 'Text', '', 'BackgroundColor', 'white');
+%ArrhythmiaController(m, "Parent", cg);
 uilabel(cg, 'Text', '', 'BackgroundColor', 'white');
 PeakDetectionController(m, "Parent", cg);
 uilabel(cg, 'Text', '', 'BackgroundColor', 'white');

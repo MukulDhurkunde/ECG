@@ -1,5 +1,5 @@
-function ecgData = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ...
-    aQrswav, dQrswav, aSwav, dSwav, aTwav, dTwav, aUwav, dUwav)
+function [ecgData, locs] = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ...
+    aQrswav, dQrswav, aSwav, dSwav, aTwav, dTwav, aUwav, dUwav, noise, detectPeak)
 
     x = 0.01:0.01:600;
     li = 30/heartRate;  
@@ -28,6 +28,15 @@ function ecgData = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ...
             factor = 1 + randn() * 0.05;  % Random factor with mean 1 and standard deviation 0.05
             ecgData(i) = ecgData(i) * factor;
         end
+    end
+
+    if (noise)
+        ecgData = generateNoise(ecgData);
+    end
+
+    locs = [];
+    if (detectPeak)
+        [ecgData, locs] = detectPeak(ecgData);
     end
 end
 
