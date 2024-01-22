@@ -21,15 +21,6 @@ function [ecgData] = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ...
     % Generate ECG signals without randomness
     ecg = pwav + qwav + qrswav + swav + twav + uwav;
 
-    % Introduce randomness (5% probability of faster or slower heartbeats)
-    %for i = 1:numel(x)
-    %    if rand() < 0.05  % 5% probability
-    %        % Adjust the heart rate randomly (you can modify this part)
-    %        factor = 1 + randn() * 0.05;  % Random factor with mean 1 and standard deviation 0.05
-    %        ecg(i) = ecg(i) * factor;
-    %    end
-    %end
-
     if (noise)
         ecgData = generateNoise(ecg);
     else

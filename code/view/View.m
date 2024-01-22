@@ -94,7 +94,7 @@ classdef View < Component
             set(ax, 'XLim', newLimits);
 
             if obj.Model.Values.detectPeak && ~isempty(data)
-                [~, peakLocations] = findpeaks(data, 'MinPeakHeight', 0.5, 'MinPeakDistance', 25);
+                [~, peakLocations] = findpeaks(data, 'MinPeakHeight', 0.2, 'MinPeakDistance', 25);
                 % Update the peak markers
                 set(obj.PeakMarkers, 'XData', peakLocations + 399, 'YData', data(peakLocations));
             end
