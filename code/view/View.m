@@ -1,6 +1,7 @@
 classdef View < Component
     properties (Access = private)
         Line(1, 1) matlab.graphics.primitive.Line
+        PeakMarkers(1, 1) matlab.graphics.primitive.Line  % Store peak markers handle
         Listener(:, 1) event.listener {mustBeScalarOrEmpty}
         ResetListener(:, 1) event.listener {mustBeScalarOrEmpty}
         ScrollTimer timer
@@ -40,6 +41,8 @@ classdef View < Component
 
             obj.Line = line(ax, 'XData', [], 'YData', [], ...
                 'Color', ax.ColorOrder(1, :), 'LineWidth', 1.5);
+            obj.PeakMarkers = line(ax, 'XData', [], 'YData', [], ...
+                'Marker', 'o', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r', 'LineStyle', 'none');
         end
 
         function update(~)
@@ -51,11 +54,13 @@ classdef View < Component
             onResetData(obj);
 
             % Set up new timer for scrolling
-            obj.ScrollTimer = timer(...
-                'ExecutionMode', 'fixedRate', ...
-                'Period', 1, ...  % Set the scrolling period in seconds
-                'TimerFcn', @(~,~) obj.scrollAxes);
-            start(obj.ScrollTimer);
+            if ~isempty(obj.Model.Data)
+                obj.ScrollTimer = timer(...
+                    'ExecutionMode', 'fixedRate', ...
+                    'Period', 1, ...  % Set the scrolling period in seconds
+                    'TimerFcn', @(~,~) obj.scrollAxes);
+                start(obj.ScrollTimer);
+            end
         end
 
         function onResetData(obj, ~, ~)
@@ -73,7 +78,7 @@ classdef View < Component
 
         function updateGraph(obj, data)
             ax = obj.Line.Parent;
-            visibleIntervals = 400;  % Adjust this as needed
+            visibleIntervals = 400;
 
             % Calculate the start indices based on the current x-axis limits
             currentIndex = round(ax.XLim(1));
@@ -87,15 +92,21 @@ classdef View < Component
             % Adjust the x-axis limits for scrolling effect
             newLimits = [currentIndex, currentIndex + visibleIntervals - 1];
             set(ax, 'XLim', newLimits);
+
+            if obj.Model.Values.detectPeak && ~isempty(data)
+                [~, peakLocations] = findpeaks(data, 'MinPeakHeight', 0.5, 'MinPeakDistance', 25);
+                % Update the peak markers
+                set(obj.PeakMarkers, 'XData', peakLocations + 399, 'YData', data(peakLocations));
+            end
         end
 
         function scrollAxes(obj)
             ax = obj.Line.Parent;
-            
+
             % Calculate the new start index based on the current x-axis limits
             currentLimits = ax.XLim;
             newStartIndex = round(currentLimits(1)) + 100;
-            
+
             % Update the x-axis limits for jumping effect
             newLimits = [newStartIndex, newStartIndex + (currentLimits(2) - currentLimits(1))];
             set(ax, 'XLim', newLimits);

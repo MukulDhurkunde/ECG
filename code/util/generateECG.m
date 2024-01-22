@@ -1,5 +1,5 @@
-function [ecgData, locs] = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ...
-    aQrswav, dQrswav, aSwav, dSwav, aTwav, dTwav, aUwav, dUwav, noise, detectPeak)
+function [ecgData] = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ...
+    aQrswav, dQrswav, aSwav, dSwav, aTwav, dTwav, aUwav, dUwav, noise)
 
     x = 0.01:0.01:600;
     li = 30/heartRate;  
@@ -19,24 +19,21 @@ function [ecgData, locs] = generateECG(heartRate, aPwav, dPwav, aQwav, dQwav, ..
     uwav = uWav(x, aUwav, dUwav, tUwav, li);
 
     % Generate ECG signals without randomness
-    ecgData = pwav + qwav + qrswav + swav + twav + uwav;
+    ecg = pwav + qwav + qrswav + swav + twav + uwav;
 
     % Introduce randomness (5% probability of faster or slower heartbeats)
-    for i = 1:numel(x)
-        if rand() < 0.05  % 5% probability
-            % Adjust the heart rate randomly (you can modify this part)
-            factor = 1 + randn() * 0.05;  % Random factor with mean 1 and standard deviation 0.05
-            ecgData(i) = ecgData(i) * factor;
-        end
-    end
+    %for i = 1:numel(x)
+    %    if rand() < 0.05  % 5% probability
+    %        % Adjust the heart rate randomly (you can modify this part)
+    %        factor = 1 + randn() * 0.05;  % Random factor with mean 1 and standard deviation 0.05
+    %        ecg(i) = ecg(i) * factor;
+    %    end
+    %end
 
     if (noise)
-        ecgData = generateNoise(ecgData);
-    end
-
-    locs = [];
-    if (detectPeak)
-        [ecgData, locs] = detectPeak(ecgData);
+        ecgData = generateNoise(ecg);
+    else
+        ecgData = ecg;
     end
 end
 
